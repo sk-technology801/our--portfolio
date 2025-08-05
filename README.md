@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 Portfolio Website with Contact Form – MongoDB Integrated
 
-## Getting Started
+This is a modern portfolio website built using **Next.js App Router**, with a **fully functional contact form** that stores user messages in **MongoDB** via an API route. Data is viewable in **MongoDB Compass**.
 
-First, run the development server:
+---
+
+## 📦 Tech Stack
+
+- ✅ **Next.js 14 (App Router)**
+- ✅ **React**
+- ✅ **MongoDB Atlas** (or MongoDB Compass)
+- ✅ **Mongoose**
+- ✅ **CSS Modules / Global CSS**
+
+---
+
+## 📁 Project Structure
+
+src/
+├── app/
+│ ├── contact/page.jsx # Contact form UI
+│ ├── api/contact/route.js # API route to handle POST request
+│ └── layout.jsx # Root layout
+│
+├── lib/
+│ └── mongodb.js # MongoDB connection helper
+│
+├── models/
+│ └── contactModel.js # Mongoose schema for contacts
+
+yaml
+Copy
+Edit
+
+---
+
+## 📬 Contact Form
+
+Located at: `/contact`
+
+- Accepts: `name`, `email`, `message`
+- Sends data to: `api/contact/route.js`
+- Stores data in MongoDB database `portfolioDB`, collection `contacts`
+
+---
+
+## 🛠️ Setup Instructions
+
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/your-username/your-portfolio.git
+cd your-portfolio
+2. Install Dependencies
+bash
+Copy
+Edit
+npm install
+3. Configure MongoDB
+Create a .env.local file in the root of the project:
+
+env
+Copy
+Edit
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/
+🧠 Replace <username> and <password> with your actual MongoDB credentials.
+
+Make sure the database name used inside mongodb.js is correct (portfolioDB).
+
+4. Run Development Server
+bash
+Copy
+Edit
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Visit http://localhost:3000 in your browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🌐 View in MongoDB Compass
+Open MongoDB Compass
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Paste your connection string
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Select portfolioDB
 
-## Learn More
+Open contacts collection to view form submissions
 
-To learn more about Next.js, take a look at the following resources:
+✅ Features
+Contact form with data validation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+API route to handle POST requests
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Backend logic to store messages in MongoDB
 
-## Deploy on Vercel
+Secure .env usage for database credentials
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🔒 Security
+Always add .env.local to .gitignore
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Never expose database credentials publicly
+
+Use serverless functions (API routes) to protect sensitive logic
+
+📄 License
+This project is open-source and free to use.
+
+Built by [Your Name] – MERN Stack Developer
+
+yaml
+
+---
+
+Would you like me to generate this as a downloadable `.md` file too?
