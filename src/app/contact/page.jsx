@@ -1,8 +1,9 @@
 "use client"
-import React, { useEffect, useRef } from 'react';
-import { Mail, Phone, MapPin, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { Mail, Phone, MapPin, HelpCircle, ChevronDown } from 'lucide-react';
 
-// Black Background with Glowing Starfield and Warp Streaks
+// Black Background with Glowing Starfield and Warp Streaks (unchanged)
 const AnimatedBackground = () => {
   const canvasRef = useRef(null);
 
@@ -11,7 +12,6 @@ const AnimatedBackground = () => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
-    // Set canvas size
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -19,7 +19,6 @@ const AnimatedBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Stars and streaks
     const stars = Array.from({ length: 100 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -37,22 +36,16 @@ const AnimatedBackground = () => {
       opacity: Math.random() * 0.3 + 0.2,
     }));
 
-    // Animation loop
     const animate = (time) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw solid black base
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw stars
       stars.forEach((star) => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity * (Math.sin(time * 0.001) + 1) / 2})`;
         ctx.fill();
-
-        // Move stars (simulate depth)
         star.y += star.speed;
         if (star.y > canvas.height) {
           star.y = 0;
@@ -60,7 +53,6 @@ const AnimatedBackground = () => {
         }
       });
 
-      // Draw warp streaks
       streaks.forEach((streak) => {
         const x1 = streak.x;
         const y1 = streak.y;
@@ -72,8 +64,6 @@ const AnimatedBackground = () => {
         ctx.strokeStyle = `rgba(0, 221, 235, ${streak.opacity * (Math.sin(time * 0.002) + 1) / 2})`;
         ctx.lineWidth = 1;
         ctx.stroke();
-
-        // Move streaks
         streak.x += streak.speed * Math.cos(streak.angle);
         streak.y += streak.speed * Math.sin(streak.angle);
         if (streak.x < 0 || streak.x > canvas.width || streak.y < 0 || streak.y > canvas.height) {
@@ -103,12 +93,36 @@ const AnimatedBackground = () => {
   );
 };
 
-// FAQ Card Component with Holographic Styling
-const FAQCard = ({ question, answer }) => {
+// Enhanced FAQ Card with Accordion and Image
+const FAQCard = ({ question, answer, image }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="bg-black p-6 rounded-xl border border-gray-800 hover:border-[#00ddeb]/50 transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.2)]">
-      <h3 className="text-lg font-black text-white mb-2 animate-holographic">{question}</h3>
-      <p className="text-gray-300 text-sm font-bold leading-relaxed">{answer}</p>
+    <div className="bg-black p-6 rounded-2xl border border-gray-800 hover:border-[#00ddeb]/70 transition-all duration-300 shadow-[0_0_15px_rgba(0,221,235,0.2)] animate-slide-up">
+      <button
+        className="w-full flex items-center justify-between text-left"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h3 className="text-lg font-black text-white animate-holographic">{question}</h3>
+        <ChevronDown className={`w-6 h-6 text-[#00ddeb] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+      >
+        {image && (
+          <div className="mt-4 w-24 h-24 rounded-xl overflow-hidden">
+            <Image
+              src={image}
+              alt={`${question} illustration`}
+              width={96}
+              height={96}
+              objectFit="cover"
+              className="rounded-xl"
+            />
+          </div>
+        )}
+        <p className="text-gray-200 text-sm font-bold leading-relaxed mt-4">{answer}</p>
+      </div>
     </div>
   );
 };
@@ -118,21 +132,21 @@ export default function Contact() {
   const faqs = [
     {
       question: "How quickly can you start my project?",
-      answer: "We typically begin within 1-2 weeks, depending on project scope and our current schedule. Contact us to discuss your timeline."
+      answer: "We typically begin within 1-2 weeks, depending on project scope and our current schedule. Contact us to discuss your timeline.",
     },
     {
       question: "What is your process for collaboration?",
-      answer: "We start with a discovery phase to understand your needs, followed by iterative development and regular updates to ensure alignment."
+      answer: "We start with a discovery phase to understand your needs, followed by iterative development and regular updates to ensure alignment.",
     },
     {
       question: "Do you offer ongoing support?",
-      answer: "Yes, we provide maintenance and support packages to keep your project running smoothly after launch."
+      answer: "Yes, we provide maintenance and support packages to keep your project running smoothly after launch.",
     }
   ];
 
   return (
     <div className="bg-black text-white overflow-hidden">
-      {/* Hero Section */}
+      {/* Hero Section (Unchanged) */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <AnimatedBackground />
         <div className="absolute inset-0 bg-black/30 z-5" />
@@ -156,80 +170,128 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Info Section */}
-      <section id="contact" className="py-16 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/50" />
+      {/* Enhanced Contact Info Section with Form and Image */}
+      <section id="contact" className="py-20 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#00ddeb]/10 to-black" />
         <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-6xl font-black mb-6 text-white animate-holographic">
-              Reach Out
-            </h2>
-            <p className="text-xl text-gray-300 font-bold mb-8 leading-relaxed">
-              Have questions or ready to start? Contact us via email, phone, or visit our office.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="p-6 bg-gray-900 rounded-xl border border-[#00ddeb]/30 hover:shadow-[0_0_15px_rgba(0,221,235,0.3)] transition-all duration-300">
-                <Mail className="w-8 h-8 text-[#00ddeb] mx-auto mb-4" />
-                <h3 className="text-lg font-black text-white mb-2">Email</h3>
-                <a href="mailto:contact@yourcompany.com" className="text-gray-300 text-sm hover:text-[#00ddeb] transition-colors duration-200">
-                  contact@yourcompany.com
-                </a>
-              </div>
-              <div className="p-6 bg-gray-900 rounded-xl border border-[#00ddeb]/30 hover:shadow-[0_0_15px_rgba(0,221,235,0.3)] transition-all duration-300">
-                <Phone className="w-8 h-8 text-[#00ddeb] mx-auto mb-4" />
-                <h3 className="text-lg font-black text-white mb-2">Phone</h3>
-                <a href="tel:+1234567890" className="text-gray-300 text-sm hover:text-[#00ddeb] transition-colors duration-200">
-                  +1 (234) 567-890
-                </a>
-              </div>
-              <div className="p-6 bg-gray-900 rounded-xl border border-[#00ddeb]/30 hover:shadow-[0_0_15px_rgba(0,221,235,0.3)] transition-all duration-300">
-                <MapPin className="w-8 h-8 text-[#00ddeb] mx-auto mb-4" />
-                <h3 className="text-lg font-black text-white mb-2">Location</h3>
-                <p className="text-gray-300 text-sm">123 Innovation St, Tech City, TX 12345</p>
+          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center drop-shadow-lg animate-fade-in">
+            Reach Out
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Info Cards */}
+            <div className="space-y-6">
+              <p className="text-xl text-gray-200 font-bold mb-8 leading-relaxed text-center lg:text-left">
+                Have questions or ready to start? Contact us via email, phone, or visit our office.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                {[
+                  {
+                    icon: Mail,
+                    title: "Email",
+                    value: "sardarsaadisaadi@gmail.com",
+                  },
+                  {
+                    icon: Phone,
+                    title: "Phone",
+                    value: "03084931083",
+                  },
+                  {
+                    icon: MapPin,
+                    title: "Location",
+                    value: "Faisalabad-Pakistan"
+                  }
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className="p-6 bg-gray-900 rounded-2xl border border-[#00ddeb]/30 hover:shadow-[0_0_20px_rgba(0,221,235,0.3)] transition-all duration-500 animate-slide-up"
+                    style={{ animationDelay: `${index * 0.2}s` }}
+                  >
+                    <item.icon className="w-8 h-8 text-[#00ddeb] mx-auto mb-4" />
+                    <h3 className="text-lg font-black text-white mb-2 text-center">{item.title}</h3>
+                    {item.href ? (
+                      <a href={item.href} className="text-gray-200 text-sm hover:text-[#00ddeb] transition-colors duration-200 block text-center">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="text-gray-200 text-sm text-center">{item.value}</p>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
-            <a href="#faq" className="px-8 py-4 bg-[#00ddeb]/20 text-white font-black rounded-full hover:bg-[#00ddeb]/40 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker">
-              View FAQs
-            </a>
+            {/* Contact Form with Image */}
+            <div className="bg-gray-900 rounded-2xl p-6 border border-[#00ddeb]/30 hover:shadow-[0_0_20px_rgba(0,221,235,0.3)] transition-all duration-500 animate-slide-up">
+              <div className="w-full h-48 rounded-xl overflow-hidden mb-6">
+               
+              </div>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className="w-full p-3 bg-black border border-[#00ddeb]/30 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-[#00ddeb]/70 transition-all duration-300"
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  className="w-full p-3 bg-black border border-[#00ddeb]/30 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-[#00ddeb]/70 transition-all duration-300"
+                />
+                <textarea
+                  placeholder="Your Message"
+                  className="w-full p-3 bg-black border border-[#00ddeb]/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-[#00ddeb]/70 transition-all duration-300 h-32"
+                ></textarea>
+                <button
+                  className="w-full px-8 py-3 bg-[#00ddeb]/30 text-white font-black rounded-full hover:bg-[#00ddeb]/50 transition-all duration-300 transform hover:scale-105 shadow-[0_0_10px_rgba(0,221,235,0.3)] animate-pulse"
+                >
+                  Send Message
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-16 bg-black">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center animate-holographic">
+      {/* Enhanced FAQ Section with Accordion */}
+      <section id="faq" className="py-20 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-[#00ddeb]/5" />
+        <div className="container mx-auto px-6 relative z-10">
+          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center drop-shadow-lg animate-fade-in">
             Frequently Asked Questions
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {faqs.map((faq, index) => (
-              <FAQCard
-                key={index}
-                {...faq}
-              />
+              <FAQCard key={index} {...faq} style={{ animationDelay: `${index * 0.2}s` }} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Call to Action Section */}
-      <section className="py-16 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/50" />
+      {/* Enhanced Call to Action Section */}
+      <section className="py-20 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black to-[#00ddeb]/10" />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-6xl font-black mb-6 text-white animate-holographic">
+            <h2 className="text-4xl md:text-6xl font-black mb-6 text-white drop-shadow-lg animate-fade-in">
               Ready to Start?
             </h2>
-            <p className="text-xl text-gray-300 font-bold mb-8 leading-relaxed">
+            <p className="text-xl text-gray-200 font-bold mb-8 leading-relaxed drop-shadow-md">
               Let's collaborate to create something extraordinary. Contact us now to get started.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="mailto:contact@yourcompany.com" className="px-8 py-4 bg-[#00ddeb]/20 text-white font-black rounded-full hover:bg-[#00ddeb]/40 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2">
+              <a
+                href="sardarsaadisaadi@gmail.com"
+                className="px-8 py-4 bg-[#00ddeb]/30 text-white font-black rounded-full hover:bg-[#00ddeb]/50 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2"
+              >
                 <Mail className="w-5 h-5" /> Email Us
               </a>
-              <a href="tel:+1234567890" className="px-8 py-4 border-2 border-[#00ddeb] text-white font-black rounded-full hover:bg-[#00ddeb]/20 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2">
+              <a
+                href="03084931083"
+                className="px-8 py-4 border-2 border-[#00ddeb] text-white font-black rounded-full hover:bg-[#00ddeb]/20 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2"
+              >
                 <Phone className="w-5 h-5" /> Call Us
               </a>
+            </div>
+            <div className="mt-8 w-full max-w-md mx-auto h-64 rounded-xl overflow-hidden">
+             
             </div>
           </div>
         </div>

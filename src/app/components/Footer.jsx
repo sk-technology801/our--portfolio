@@ -19,8 +19,8 @@ export default function Footer() {
 
   const socialLinks = [
     { name: 'Twitter', href: 'https://twitter.com/yourcompany', icon: Twitter },
-    { name: 'GitHub', href: 'https://github.com/yourcompany', icon: Github },
-    { name: 'LinkedIn', href: 'https://linkedin.com/company/yourcompany', icon: Linkedin },
+    { name: 'GitHub', href: 'https://github.com/sk-technology801?tab=repositories', icon: Github },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/sk-technology-05080b338/', icon: Linkedin },
   ];
 
   return (
@@ -68,25 +68,23 @@ export default function Footer() {
               <li className="flex items-center gap-2">
                 <Mail className="w-5 h-5 text-[#00ddeb]" />
                 <a
-                  href="mailto:contact@yourcompany.com"
                   className="text-gray-300 text-sm font-bold hover:text-[#00ddeb] hover:border-b-2 hover:border-[#00ddeb]/50 transition-all duration-200"
                 >
-                  contact@yourcompany.com
+                  sardarsaadisaadi@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-5 h-5 text-[#00ddeb]" />
                 <a
-                  href="tel:+1234567890"
                   className="text-gray-300 text-sm font-bold hover:text-[#00ddeb] hover:border-b-2 hover:border-[#00ddeb]/50 transition-all duration-200"
                 >
-                  +1 (234) 567-890
+                  03084931083
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-[#00ddeb]" />
                 <span className="text-gray-300 text-sm font-bold">
-                  123 Innovation St, Tech City, TX 12345
+                  Faisalabad Pakistan
                 </span>
               </li>
             </ul>

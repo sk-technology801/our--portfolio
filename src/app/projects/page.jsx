@@ -1,8 +1,10 @@
+
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image'; // Import Next.js Image component
 import { ExternalLink, Github, Eye, Code, Zap, Users, Globe, Database, Star, Mail, Phone } from 'lucide-react';
 
-// Unique Black Background with Subtle Particle Pulses
+// Animated Background Component (unchanged)
 const AnimatedBackground = () => {
   const canvasRef = useRef(null);
 
@@ -11,7 +13,6 @@ const AnimatedBackground = () => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
-    // Set canvas size
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -19,7 +20,6 @@ const AnimatedBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Particle system
     const particles = Array.from({ length: 25 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -29,26 +29,20 @@ const AnimatedBackground = () => {
       opacity: Math.random() * 0.3 + 0.1,
     }));
 
-    // Animation loop
     const animate = (time) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw subtle black base
       ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw particles with pulsing effect
       particles.forEach((particle) => {
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity * (Math.sin(time * 0.001) + 1) / 2})`;
         ctx.fill();
 
-        // Update particle position
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
-        // Bounce off edges
         if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
         if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
       });
@@ -73,8 +67,8 @@ const AnimatedBackground = () => {
   );
 };
 
-// Project Card with Black Theme
-const ProjectCard = ({ title, description, technologies, liveUrl, githubUrl }) => {
+// Updated Project Card with Image Support
+const ProjectCard = ({ title, description, technologies, liveUrl, githubUrl, image }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const getTechIcon = (tech) => {
@@ -108,14 +102,24 @@ const ProjectCard = ({ title, description, technologies, liveUrl, githubUrl }) =
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="relative w-full h-48 bg-gray-900 rounded-xl mb-6 overflow-hidden">
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-white/60 text-6xl font-bold opacity-30">
-            {title.split(' ').map(word => word[0]).join('')}
+      <div className="relative w-full h-48 rounded-xl mb-6 overflow-hidden">
+        {image ? (
+          <Image
+            src={image}
+            alt={`${title} preview`}
+            layout="fill"
+            objectFit="cover"
+            className="rounded-xl"
+            priority
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+            <div className="text-white/60 text-6xl font-bold opacity-30">
+              {title.split(' ').map(word => word[0]).join('')}
+            </div>
           </div>
-        </div>
-        <div className={`absolute inset-0 bg-black/80 flex items-center justify-center space-x-4 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        )}
+        <div className={`absolute inset-0 bg-black/50 flex items-center justify-center space-x-4 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
           {liveUrl && (
             <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-full transition-colors duration-200">
               <ExternalLink className="w-5 h-5" />
@@ -151,7 +155,7 @@ const ProjectCard = ({ title, description, technologies, liveUrl, githubUrl }) =
   );
 };
 
-// Testimonial Card for Carousel
+// Testimonial Card (unchanged)
 const TestimonialCard = ({ quote, author, role }) => {
   return (
     <div className="bg-black p-6 rounded-2xl border border-gray-800 hover:border-gray-600 transition-all duration-300 shadow-lg shadow-white/5">
@@ -171,7 +175,7 @@ const TestimonialCard = ({ quote, author, role }) => {
   );
 };
 
-// Main Projects Component with Additional Sections
+// Main Projects Component with Updated Projects Data
 export default function Projects() {
   const [selectedFilter, setSelectedFilter] = useState('All');
   
@@ -181,42 +185,48 @@ export default function Projects() {
       description: "A fully responsive online store with secure payment integration, real-time inventory management, and advanced analytics dashboard for business insights.",
       technologies: ["React", "Node.js", "E-commerce", "Payment"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "#",
+      image: "/images/ecomerace.jpg.jpeg" // Example image path
     },
     {
-      title: "Creative Portfolio",
-      description: "An immersive portfolio experience featuring smooth animations, 3D elements, and interactive galleries to showcase creative work in stunning detail.",
+      title: "Bitcoin",
+      description: "It offers an alternative to traditional financial systems, especially in countries with unstable currencies.",
       technologies: ["React", "Three.js", "Portfolio", "Animation"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "#",
+      image: "/images/bitcoin.jpg.jpeg" // Example image path
     },
     {
-      title: "SaaS Analytics Dashboard",
-      description: "A comprehensive business intelligence platform with real-time data visualization, custom reporting, and team collaboration features.",
-      technologies: ["React", "SaaS", "Analytics", "Dashboard"],
+      title: "Auto-Dealer",
+      description: "An auto car dealer is a business that sells new or used vehicles to customers, often providing financing, trade-ins, and repair services.",
+      technologies: ["React",, "Analytics", "Dashboard"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "#",
+      image: "/images/auto-dealer.jpg.jpeg" // Example image path
     },
     {
-      title: "Community Forum",
-      description: "A modern forum platform with threaded discussions, real-time notifications, moderation tools, and seamless mobile experience.",
+      title: "Bussiness-Insight",
+      description: "Business insight refers to a deep understanding of a company's operations, market trends, customerbehavior, or performance data that helps in making informed strategic decisions.",
       technologies: ["React", "Community", "Real-time", "Mobile"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "#",
+      image: "/images/bussiness-insight.jpg.jpeg" // Example image path
     },
     {
-      title: "AI-Powered Blog",
-      description: "An intelligent blogging platform with AI content suggestions, SEO optimization, and automated social media integration.",
+      title: "Car-Hub",
+      description: "Car Hub refers to a centralized platform or location where various automotive servicesS ",
       technologies: ["React", "AI", "SEO", "Automation"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "#",
+      image: "/images/car-hub.jpeg" // Example image path
     },
     {
-      title: "Fintech Mobile App",
-      description: "A secure financial application with biometric authentication, real-time transactions, and comprehensive budget tracking.",
+      title: "Govt Agency",
+      description: "A government agency is an official organization established by a government to carry out specific functions,such as enforcing laws, regulating industries, or providing public services.",
       technologies: ["React Native", "Fintech", "Security", "Mobile"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "#",
+      image: "/images/govt-agency.jpg.jpeg" // Example image path
     }
   ];
 
@@ -307,8 +317,6 @@ export default function Projects() {
         </div>
       </section>
 
-     
-
       {/* Testimonials Section */}
       <section className="py-16 bg-black">
         <div className="container mx-auto px-6">
@@ -349,7 +357,7 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* Existing CTA Section */}
+      {/* CTA Section */}
       <section className="py-20 bg-black relative overflow-hidden">
         <div className="absolute inset-0 bg-black/50" />
         <div className="container mx-auto px-6 relative z-10">

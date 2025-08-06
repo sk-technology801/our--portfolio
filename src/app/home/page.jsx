@@ -74,7 +74,7 @@ export default function Home() {
                 <h1 className="text-3xl md:text-5xl font-bold leading-tight">
                   Build Modern <br />
                   and Highly Optimized <br />
-                  Sites With Arafa
+                  Sites With Saad
                 </h1>
                 <Link
                   href="/get-started"
@@ -92,7 +92,7 @@ export default function Home() {
       <AnimatedSection id="tech-stack" isTechStack={true}>
         {(isHovered) => (
           <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-2xl md:text-4xl font-bold text-center mb-8">Arafa Tech Stack</h2>
+            <h2 className="text-2xl md:text-4xl font-bold text-center mb-8">Saad Tech Stack</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {techStack.map((tech) => (
                 <TechStackItem key={tech.name} name={tech.name} icon={tech.icon} isSectionHovered={isHovered} />
@@ -114,7 +114,7 @@ export default function Home() {
                 <h1 className="text-3xl md:text-4xl font-bold leading-tight">
                   Create Stunning <br />
                   and High-Performance <br />
-                  Websites with Arafa
+                  Websites with Saad
                 </h1>
                 <p className="text-base md:text-lg max-w-md">
                   Leverage our expertise in modern JavaScript frameworks to build dynamic, responsive, and scalable web applications tailored to your vision.
@@ -143,7 +143,7 @@ export default function Home() {
                   Advance JS Solutions
                 </h1>
                 <p className="text-base md:text-lg max-w-md">
-                  Build lightning-fast, scalable, and modern web applications with cutting-edge JavaScript frameworks. At ArafaWebs, we craft high-performance, scalable, and future-ready web applications using the latest JavaScript technologies — including Next.js, Vue.js, Node.js, Express, Angular, TypeScript, Three.js, and more. From intuitive UIs to powerful backend architectures, we deliver full-stack solutions tailored for startups, enterprises, and everything in between.
+                  Build lightning-fast, scalable, and modern web applications with cutting-edge JavaScript frameworks. At SaadWebs, we craft high-performance, scalable, and future-ready web applications using the latest JavaScript technologies — including Next.js, Vue.js, Node.js, Express, Angular, TypeScript, Three.js, and more. From intuitive UIs to powerful backend architectures, we deliver full-stack solutions tailored for startups, enterprises, and everything in between.
                 </p>
                 <Link
                   href="/get-started"

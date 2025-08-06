@@ -1,8 +1,9 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Code, Zap, Users, Globe, Database, Star, Mail, Phone, Brush, Smartphone, Layout } from 'lucide-react';
+import Image from 'next/image';
+import { ExternalLink, Code, Zap, Users, Globe, Database, Brush, Smartphone, Layout } from 'lucide-react';
 
-// Black Background with Glowing Hexagonal Grid
+// Black Background with Glowing Hexagonal Grid (unchanged)
 const AnimatedBackground = () => {
   const canvasRef = useRef(null);
 
@@ -11,7 +12,6 @@ const AnimatedBackground = () => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
-    // Set canvas size
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -19,13 +19,11 @@ const AnimatedBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Hexagon grid parameters
     const hexSize = 50;
     const hexagons = [];
     const cols = Math.ceil(canvas.width / (hexSize * 1.5)) + 1;
     const rows = Math.ceil(canvas.height / (hexSize * Math.sqrt(3))) + 1;
 
-    // Generate hexagons
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
         const x = i * hexSize * 1.5;
@@ -39,15 +37,11 @@ const AnimatedBackground = () => {
       }
     }
 
-    // Animation loop
     const animate = (time) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw solid black base
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw hexagons
       hexagons.forEach((hex) => {
         ctx.beginPath();
         for (let k = 0; k < 6; k++) {
@@ -60,8 +54,6 @@ const AnimatedBackground = () => {
         ctx.strokeStyle = `rgba(0, 221, 235, ${hex.opacity * (Math.sin(time * hex.speed) + 1) / 2})`;
         ctx.lineWidth = 1;
         ctx.stroke();
-
-        // Update opacity
         hex.opacity = Math.max(0, Math.min(0.2, hex.opacity + Math.sin(time * hex.speed) * 0.001));
       });
 
@@ -85,32 +77,53 @@ const AnimatedBackground = () => {
   );
 };
 
-// Service Card with Black Theme and Cyan Accents
-const ServiceCard = ({ title, description, icon: Icon, features }) => {
+// Enhanced Service Card with Image Support and Animations
+const ServiceCard = ({ title, description, icon: Icon, features, image }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div 
-      className="group relative bg-black p-6 rounded-xl border border-gray-800 hover:border-[#00ddeb]/50 transition-all duration-500 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(0,221,235,0.2)]"
+      className="group relative bg-black p-6 rounded-2xl border border-gray-800 hover:border-[#00ddeb]/70 transition-all duration-500 transform hover:scale-105 hover:shadow-[0_0_20px_rgba(0,221,235,0.3)]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="absolute inset-0 bg-[#00ddeb]/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="relative w-full h-48 bg-gray-900 rounded-lg mb-6 overflow-hidden flex items-center justify-center">
-        <Icon className="w-24 h-24 text-[#00ddeb] group-hover:scale-110 transition-transform duration-300" />
+      <div className="absolute inset-0 bg-[#00ddeb]/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="relative w-full h-48 rounded-xl mb-6 overflow-hidden">
+        {image ? (
+          <Image
+            src={image}
+            alt={`${title} preview`}
+            layout="fill"
+            objectFit="cover"
+            className="rounded-xl transition-transform duration-500 group-hover:scale-110"
+            priority
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+            <Icon className="w-24 h-24 text-[#00ddeb] group-hover:scale-110 transition-transform duration-300" />
+          </div>
+        )}
+        <div className={`absolute inset-0 bg-black/40 flex items-center justify-center space-x-4 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+          <a 
+            href="#contact" 
+            className="bg-[#00ddeb]/30 hover:bg-[#00ddeb]/50 text-white p-3 rounded-full transition-colors duration-200"
+          >
+            <ExternalLink className="w-5 h-5" />
+          </a>
+        </div>
       </div>
       <div className="relative z-10">
-        <h3 className="text-xl font-black text-white mb-3 group-hover:text-[#00ddeb] transition-colors duration-300">
+        <h3 className="text-2xl font-black text-white mb-3 group-hover:text-[#00ddeb] transition-colors duration-300 drop-shadow-lg">
           {title}
         </h3>
-        <p className="text-gray-300 text-sm font-bold leading-relaxed mb-4">
+        <p className="text-gray-300 text-sm font-bold leading-relaxed mb-4 drop-shadow-md">
           {description}
         </p>
         <div className="flex flex-wrap gap-2 mb-4">
           {features.map((feature, index) => (
             <span 
               key={index}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-gray-900 text-gray-300 font-bold text-xs rounded-full border border-gray-800 hover:border-[#00ddeb]/50 transition-colors duration-200"
+              className="inline-flex items-center gap-1 px-3 py-1 bg-gray-900 text-gray-200 font-bold text-xs rounded-full border border-gray-700 hover:border-[#00ddeb]/70 transition-colors duration-200"
             >
               {feature}
             </span>
@@ -118,7 +131,7 @@ const ServiceCard = ({ title, description, icon: Icon, features }) => {
         </div>
         <a 
           href="#contact" 
-          className="inline-block px-6 py-2 bg-[#00ddeb]/20 text-white font-black rounded-full hover:bg-[#00ddeb]/40 transition-all duration-300"
+          className="inline-block px-6 py-2 bg-[#00ddeb]/30 text-white font-black rounded-full hover:bg-[#00ddeb]/50 transition-all duration-300 transform hover:scale-105"
         >
           Learn More
         </a>
@@ -127,76 +140,42 @@ const ServiceCard = ({ title, description, icon: Icon, features }) => {
   );
 };
 
-// Testimonial Card with Black Theme and Cyan Accents
-const TestimonialCard = ({ quote, author, role }) => {
-  return (
-    <div className="bg-black p-6 rounded-xl border border-gray-800 hover:border-[#00ddeb]/50 transition-all duration-300 shadow-[0_0_10px_rgba(0,221,235,0.1)]">
-      <div className="flex items-center mb-4">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} className="w-5 h-5 text-[#00ddeb] fill-[#00ddeb]" />
-        ))}
-      </div>
-      <p className="text-gray-300 text-sm font-bold leading-relaxed mb-4">
-        "{quote}"
-      </p>
-      <div>
-        <p className="text-white font-black">{author}</p>
-        <p className="text-gray-400 text-xs">{role}</p>
-      </div>
-    </div>
-  );
-};
-
-// Main Services Component
+// Main Services Component with Enhanced Sections
 export default function Services() {
   const services = [
     {
       title: "Web Development",
-      description: "Building high-performance websites with modern frameworks and seamless functionality.",
+      description: "Building high-performance, responsive websites with modern frameworks, optimized for speed and scalability.",
       icon: Globe,
-      features: ["React", "Node.js", "Scalable", "SEO"]
+      features: ["React", "Next.js", "SEO", "Performance"],
+      image: "/images/bitcoin.jpg.jpeg"
     },
     {
       title: "Mobile App Development",
-      description: "Creating fast and secure mobile apps for iOS and Android with intuitive interfaces.",
+      description: "Crafting intuitive, secure, and cross-platform mobile apps for iOS and Android with seamless UX.",
       icon: Smartphone,
-      features: ["React Native", "Cross-Platform", "Secure", "Fast"]
+      features: ["React Native", "Cross-Platform", "Secure", "Fast"],
+      image: "https://images.pexels.com/photos/4078342/pexels-photo-4078342.jpeg?_gl=1*1wdhago*_ga*MTU3NjA0MjQ0NS4xNzUwMzMyOTg3*_ga_8JE65Q40S6*czE3NTQ1MTMwMTMkbzQ5JGcxJHQxNzU0NTEzMTc5JGo1OSRsMCRoMA.."
     },
     {
       title: "UI/UX Design",
-      description: "Crafting engaging and user-centric designs to elevate your brand's experience.",
+      description: "Designing user-centric, visually stunning interfaces with a focus on engagement and accessibility.",
       icon: Brush,
-      features: ["Prototyping", "Wireframes", "User-Centric", "Responsive"]
+      features: ["Figma", "Prototyping", "Responsive", "User-Centric"],
+      image: "https://images.pexels.com/photos/3585001/pexels-photo-3585001.jpeg?_gl=1*1n4sacz*_ga*MTU3NjA0MjQ0NS4xNzUwMzMyOTg3*_ga_8JE65Q40S6*czE3NTQ1MTMwMTMkbzQ5JGcxJHQxNzU0NTEzNTg3JGoxNCRsMCRoMA.."
     },
     {
       title: "Cloud Solutions",
-      description: "Delivering scalable and secure cloud infrastructure for efficient operations.",
+      description: "Providing scalable, secure cloud infrastructure with serverless architectures for modern businesses.",
       icon: Database,
-      features: ["AWS", "Serverless", "Secure", "Scalable"]
-    }
-  ];
-
-  const testimonials = [
-    {
-      quote: "Their web development service revolutionized our digital presence.",
-      author: "Jane Doe",
-      role: "CEO, TechCorp"
-    },
-    {
-      quote: "The mobile app they built is incredibly fast and user-friendly.",
-      author: "John Smith",
-      role: "Founder, AppStudio"
-    },
-    {
-      quote: "Their UI/UX design took our brand to the next level.",
-      author: "Emily Johnson",
-      role: "Creative Director, DesignX"
+      features: ["AWS", "Serverless", "Secure", "Scalable"],
+      image: "/images/cloud.jpg"
     }
   ];
 
   return (
     <div className="bg-black text-white overflow-hidden">
-      {/* Hero Section */}
+      {/* Hero Section (Unchanged) */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <AnimatedBackground />
         <div className="absolute inset-0 bg-black/30 z-5" />
@@ -220,113 +199,109 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section id="services" className="py-16 bg-black">
+      {/* Enhanced Services Grid with Animation */}
+      <section id="services" className="py-20 bg-black relative">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center">
+          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center drop-shadow-lg animate-fade-in">
             Our Expertise
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <ServiceCard
-                key={index}
-                {...service}
-              />
+              <div key={index} className="animate-slide-up" style={{ animationDelay: `${index * 0.2}s` }}>
+                <ServiceCard {...service} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className="py-16 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/50" />
+      {/* Enhanced Why Choose Us Section with Interactive Cards */}
+      <section className="py-20 bg-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black to-[#00ddeb]/10" />
         <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-6xl font-black mb-6 text-white">
-              Why Choose Us
-            </h2>
-            <p className="text-xl text-gray-300 font-bold mb-8 leading-relaxed">
-              Our expertise and client-focused approach deliver innovative solutions tailored to your needs.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="p-4 bg-gray-900 rounded-xl border border-[#00ddeb]/30">
-                <h3 className="text-xl font-black text-white mb-2">Innovative Technology</h3>
-                <p className="text-gray-300 text-sm">We leverage the latest tools to build future-ready solutions.</p>
+          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center drop-shadow-lg animate-fade-in">
+            Why Choose Us
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {[
+              {
+                title: "Innovative Technology",
+                description: "We leverage cutting-edge tools to deliver future-ready solutions.",
+                icon: Zap
+              },
+              {
+                title: "Client-Centric Approach",
+                description: "Your vision drives our process, ensuring tailored results.",
+                icon: Users
+              },
+              {
+                title: "Proven Expertise",
+                description: "Years of experience delivering high-quality, scalable projects.",
+                icon: Layout
+              }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="p-6 bg-gray-900 rounded-2xl border border-[#00ddeb]/30 hover:border-[#00ddeb]/70 transition-all duration-500 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(0,221,235,0.3)] animate-slide-up"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <item.icon className="w-12 h-12 text-[#00ddeb] mb-4 mx-auto" />
+                <h3 className="text-xl font-black text-white mb-2 text-center">{item.title}</h3>
+                <p className="text-gray-200 text-sm text-center">{item.description}</p>
               </div>
-              <div className="p-4 bg-gray-900 rounded-xl border border-[#00ddeb]/30">
-                <h3 className="text-xl font-black text-white mb-2">Client-Centric</h3>
-                <p className="text-gray-300 text-sm">Your vision drives our process, ensuring tailored results.</p>
-              </div>
-            </div>
-            <a href="#contact" className="px-8 py-4 bg-[#00ddeb]/20 text-white font-black rounded-full hover:bg-[#00ddeb]/40 transition-all duration-300 transform hover:scale-105 shadow-[0_0_10px_rgba(0,221,235,0.3)]">
+            ))}
+          </div>
+          <div className="text-center">
+            <a
+              href="#contact"
+              className="px-8 py-4 bg-[#00ddeb]/30 text-white font-black rounded-full hover:bg-[#00ddeb]/50 transition-all duration-300 transform hover:scale-105 shadow-[0_0_10px_rgba(0,221,235,0.3)] animate-pulse"
+            >
               Start Your Journey
             </a>
           </div>
         </div>
       </section>
 
-      {/* Our Process Section */}
-      <section className="py-16 bg-black">
+      {/* Enhanced Our Process Section with Timeline */}
+      <section className="py-20 bg-black">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center">
+          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center drop-shadow-lg animate-fade-in">
             Our Process
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-gray-900 rounded-xl text-center border border-[#00ddeb]/30">
-              <div className="text-3xl font-black text-white mb-4">01</div>
-              <h3 className="text-xl font-black text-white mb-2">Discovery</h3>
-              <p className="text-gray-300 text-sm">We analyze your needs and define project goals.</p>
-            </div>
-            <div className="p-6 bg-gray-900 rounded-xl text-center border border-[#00ddeb]/30">
-              <div className="text-3xl font-black text-white mb-4">02</div>
-              <h3 className="text-xl font-black text-white mb-2">Development</h3>
-              <p className="text-gray-300 text-sm">We build robust solutions with agile methodologies.</p>
-            </div>
-            <div className="p-6 bg-gray-900 rounded-xl text-center border border-[#00ddeb]/30">
-              <div className="text-3xl font-black text-white mb-4">03</div>
-              <h3 className="text-xl font-black text-white mb-2">Delivery</h3>
-              <p className="text-gray-300 text-sm">We deploy and support your project for success.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16 bg-black">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl md:text-6xl font-black mb-12 text-white text-center">
-            What Our Clients Say
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-[#00ddeb]/30 hidden md:block"></div>
+            {[
+              {
+                step: "01",
+                title: "Discovery",
+                description: "We analyze your needs, define goals, and create a project roadmap."
+              },
+              {
+                step: "02",
+                title: "Development",
+                description: "Our team builds robust solutions using agile methodologies."
+              },
+              {
+                step: "03",
+                title: "Delivery",
+                description: "We deploy, test, and support your project for optimal success."
+              }
+            ].map((step, index) => (
+              <div
                 key={index}
-                {...testimonial}
-              />
+                className={`flex flex-col md:flex-row items-center mb-12 animate-slide-up ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                style={{ animationDelay: `${index * 0.3}s` }}
+              >
+                <div className="md:w-1/2 p-6">
+                  <div className="p-6 bg-gray-900 rounded-2xl border border-[#00ddeb]/30 hover:border-[#00ddeb]/70 transition-all duration-300">
+                    <div className="text-3xl font-black text-[#00ddeb] mb-4">{step.step}</div>
+                    <h3 className="text-xl font-black text-white mb-2">{step.title}</h3>
+                    <p className="text-gray-200 text-sm">{step.description}</p>
+                  </div>
+                </div>
+                <div className="hidden md:block md:w-1/2"></div>
+              </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-16 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-6xl font-black mb-6 text-white">
-              Get in Touch
-            </h2>
-            <p className="text-xl text-gray-300 font-bold mb-8 leading-relaxed">
-              Ready to transform your business? Contact us to discuss your next project.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="mailto:contact@yourcompany.com" className="px-8 py-4 bg-[#00ddeb]/20 text-white font-black rounded-full hover:bg-[#00ddeb]/40 transition-all duration-300 transform hover:scale-105 shadow-[0_0_10px_rgba(0,221,235,0.3)] flex items-center gap-2">
-                <Mail className="w-5 h-5" /> Email Us
-              </a>
-              <a href="tel:+1234567890" className="px-8 py-4 border-2 border-[#00ddeb] text-white font-black rounded-full hover:bg-[#00ddeb]/20 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-                <Phone className="w-5 h-5" /> Call Us
-              </a>
-            </div>
           </div>
         </div>
       </section>

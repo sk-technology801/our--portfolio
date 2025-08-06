@@ -93,7 +93,7 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="text-base md:text-lg mb-6"
             >
-              Arafa Webs crafts tailored digital solutions that deliver real-world business results
+              Saad Webs crafts tailored digital solutions that deliver real-world business results
             </motion.p>
             <div className="flex space-x-4">
               <motion.div
@@ -143,7 +143,7 @@ export default function About() {
               About us
             </h2>
             <p className="text-base md:text-lg max-w-3xl">
-              Arafa Webs is a specialized web development company founded in 2020, focused on delivering high-quality, custom-built websites tailored to meet modern business needs. We started with a clear purpose: to simplify the web development process by offering focused, professional solutions — without the confusion of unrelated services. Our mission is simple — build websites that are fast, functional, and built to scale. From advanced web systems to e-commerce platforms and portfolio sites, we work with businesses across the globe to help them establish a strong digital presence. <span className="inline-block mx-2">|</span> At Arafa Webs, we don’t just create websites — we craft digital solutions that drive real results.
+              Saad Webs is a specialized web development company founded in 2020, focused on delivering high-quality, custom-built websites tailored to meet modern business needs. We started with a clear purpose: to simplify the web development process by offering focused, professional solutions — without the confusion of unrelated services. Our mission is simple — build websites that are fast, functional, and built to scale. From advanced web systems to e-commerce platforms and portfolio sites, we work with businesses across the globe to help them establish a strong digital presence. <span className="inline-block mx-2">|</span> At Saad Webs, we don’t just create websites — we craft digital solutions that drive real results.
             </p>
           </motion.div>
           {/* Right Side: Placeholder */}
