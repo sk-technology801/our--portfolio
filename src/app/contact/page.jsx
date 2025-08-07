@@ -159,10 +159,10 @@ export default function Contact() {
               Connect with us to turn your ideas into reality. We're ready to create something extraordinary together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a href="mailto:contact@yourcompany.com" className="px-8 py-4 bg-[#00ddeb]/20 text-white font-black rounded-full hover:bg-[#00ddeb]/40 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2">
+              <a href="sardarsaadisaadi@gmail.com" className="px-8 py-4 bg-[#00ddeb]/20 text-white font-black rounded-full hover:bg-[#00ddeb]/40 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2">
                 <Mail className="w-5 h-5" /> Email Us
               </a>
-              <a href="tel:+1234567890" className="px-8 py-4 border-2 border-[#00ddeb] text-white font-black rounded-full hover:bg-[#00ddeb]/20 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2">
+              <a href="03084931083" className="px-8 py-4 border-2 border-[#00ddeb] text-white font-black rounded-full hover:bg-[#00ddeb]/20 transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(0,221,235,0.4)] animate-neon-flicker flex items-center gap-2">
                 <Phone className="w-5 h-5" /> Call Us
               </a>
             </div>

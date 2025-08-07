@@ -346,10 +346,10 @@ export default function Projects() {
               Have a project in mind? Reach out to us, and let's create something extraordinary together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a  className="px-8 py-4 bg-gray-800 text-white font-black rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2">
+              <a href="sardarsaadisaadi@gmail.com" className="px-8 py-4 bg-gray-800 text-white font-black rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2">
                 <Mail className="w-5 h-5" /> Email Us
               </a>
-              <a  className="px-8 py-4 border-2 border-gray-600 text-white font-black rounded-full hover:bg-gray-600 hover:text-white transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+              <a href="03084931083" className="px-8 py-4 border-2 border-gray-600 text-white font-black rounded-full hover:bg-gray-600 hover:text-white transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
                 <Phone className="w-5 h-5" /> Call Us
               </a>
             </div>
