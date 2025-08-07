@@ -155,14 +155,14 @@ export default function Services() {
       description: "Crafting intuitive, secure, and cross-platform mobile apps for iOS and Android with seamless UX.",
       icon: Smartphone,
       features: ["React Native", "Cross-Platform", "Secure", "Fast"],
-      image: "https://images.pexels.com/photos/4078342/pexels-photo-4078342.jpeg?_gl=1*1wdhago*_ga*MTU3NjA0MjQ0NS4xNzUwMzMyOTg3*_ga_8JE65Q40S6*czE3NTQ1MTMwMTMkbzQ5JGcxJHQxNzU0NTEzMTc5JGo1OSRsMCRoMA.."
+      image: "/images/mobile-app.jpg"
     },
     {
       title: "UI/UX Design",
       description: "Designing user-centric, visually stunning interfaces with a focus on engagement and accessibility.",
       icon: Brush,
       features: ["Figma", "Prototyping", "Responsive", "User-Centric"],
-      image: "https://images.pexels.com/photos/3585001/pexels-photo-3585001.jpeg?_gl=1*1n4sacz*_ga*MTU3NjA0MjQ0NS4xNzUwMzMyOTg3*_ga_8JE65Q40S6*czE3NTQ1MTMwMTMkbzQ5JGcxJHQxNzU0NTEzNTg3JGoxNCRsMCRoMA.."
+      image: "/images/ux.jpg"
     },
     {
       title: "Cloud Solutions",
